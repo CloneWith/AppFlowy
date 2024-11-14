@@ -671,6 +671,8 @@
       }
     },
     "common": {
+      "uploadingFile": "文件上传中。请不要退出应用",
+      "uploadNotionSuccess": "你的 Notion 压缩文件上传成功。导入完成后，你将收到确认邮件",
       "reset": "重置"
     },
     "menu": {
@@ -699,6 +701,8 @@
       "selfHostStart": "如果您没有服务器，请参阅",
       "selfHostContent": "文档",
       "selfHostEnd": "有关如何自行托管自己的服务器的指南",
+      "pleaseInputValidURL": "请输入有效 URL",
+      "changeUrl": "将自托管 URL 更改为 {}",
       "cloudURLHint": "输入您的服务器的 URL",
       "cloudWSURL": "WebSocket URL",
       "cloudWSURLHint": "输入您的服务器的 WebSocket 地址",
@@ -732,19 +736,40 @@
         "label": "显示通知图标",
         "hint": "关闭开关以隐藏侧边栏中的通知图标。"
       },
+      "archiveNotifications": {
+        "allSuccess": "所有通知归档成功",
+        "success": "通知归档成功"
+      },
       "markAsReadNotifications": {
         "allSuccess": "成功全部标为已读",
         "success": "成功标为已读"
       },
       "action": {
         "markAsRead": "标为已读",
-        "multipleChoice": "选择更多"
+        "multipleChoice": "选择更多",
+        "archive": "归档"
       },
       "settings": {
-        "settings": "设置"
+        "settings": "设置",
+        "markAllAsRead": "全标已读",
+        "archiveAll": "全部归档"
+      },
+      "emptyInbox": {
+        "title": "收件箱是空的！",
+        "description": "设置提醒后，将在这里收到通知。"
+      },
+      "emptyUnread": {
+        "title": "无未读通知",
+        "description": "全都赶上了！"
+      },
+      "emptyArchived": {
+        "title": "无归档项目",
+        "description": "归档的通知会出现在这里。"
       },
       "tabs": {
-        "unread": "未读"
+        "inbox": "收件箱",
+        "unread": "未读",
+        "archived": "归档"
       },
       "refreshSuccess": "成功刷新通知",
       "titles": {
@@ -769,6 +794,8 @@
       "documentSettings": {
         "cursorColor": "文档光标颜色",
         "selectionColor": "文档选择颜色",
+        "width": "文档宽度",
+        "changeWidth": "更改",
         "pickColor": "选择颜色",
         "colorShade": "色深",
         "opacity": "透明度",
@@ -834,10 +861,22 @@
         "user": "用户",
         "role": "角色",
         "removeFromWorkspace": "从工作区移除",
+        "removeFromWorkspaceSuccess": "成员移除成功",
+        "removeFromWorkspaceFailed": "成员移除失败",
         "owner": "所有者",
         "guest": "访客",
         "member": "成员",
+        "memberHintText": "成员可以阅读与编辑页面",
+        "guestHintText": "访客在获权后，可以阅读、评论、编辑指定页面并做出反应。",
+        "emailInvalidError": "邮箱无效，请检查后重试",
         "emailSent": "邮件已发送，请检查您的邮箱",
+        "members": "成员",
+        "membersCount": {
+          "zero": "{} 位成员",
+          "one": "{} 位成员",
+          "other": "{} 位成员"
+        },
+        "inviteFailedDialogTitle": "邀请发送失败",
         "memberLimitExceededUpgrade": "升级",
         "memberLimitExceededProContact": "support@appflowy.io",
         "failedToAddMember": "添加成员失败",
