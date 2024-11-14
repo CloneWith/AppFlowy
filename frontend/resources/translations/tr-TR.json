@@ -1442,8 +1442,8 @@
       "delete": "Sil",
       "addFileOrImage": "Bir dosya, resim veya bağlantı ekleyin",
       "addFileMobile": "Dosya ekle",
-      "hideFileNames": "Dosya adlarını gizle",
-      "downloadSuccess": "Dosya başarıyla kaydedildi"
+      "downloadSuccess": "Dosya başarıyla kaydedildi",
+      "hideFileNames": "Dosya adlarını gizle"
     }
   },
   "document": {

@@ -1182,8 +1182,8 @@
     "media": {
       "rename": "重命名",
       "download": "下载",
-      "open": "打开",
-      "delete": "删除"
+      "delete": "删除",
+      "open": "打开"
     },
     "singleSelectOptionFilter": {
       "is": "等于",
@@ -1855,6 +1855,100 @@
     "removeRelatedTemplate": "移除相关模板",
     "label": "模板"
   },
+  "fileDropzone": {
+    "dropFile": "点击或拖放文件至此处以上传",
+    "uploading": "上传中...",
+    "uploadFailed": "上传失败",
+    "uploadSuccess": "上传成功",
+    "uploadSuccessDescription": "文件上传成功",
+    "uploadFailedDescription": "文件上传失败",
+    "uploadingDescription": "正在上传文件"
+  },
+  "gallery": {
+    "preview": "全屏打开",
+    "copy": "复制",
+    "download": "下载",
+    "prev": "上一张",
+    "next": "下一张",
+    "resetZoom": "重置缩放",
+    "zoomIn": "放大",
+    "zoomOut": "缩小"
+  },
+  "invitation": {
+    "join": "加入",
+    "on": "于",
+    "invitedBy": "邀请者",
+    "membersCount": {
+      "zero": "{count} 位成员",
+      "one": "{count} 位成员",
+      "many": "{count} 位成员",
+      "other": "{count} 位成员"
+    },
+    "tip": "你已应邀加入此工作区，联系信息如下。如果有误，请联系管理员重发邀请。",
+    "joinWorkspace": "加入工作区",
+    "success": "已成功加入工作区",
+    "successMessage": "你现在可以访问其中的所有页面与工作区了。",
+    "openWorkspace": "打开 AppFlowy",
+    "alreadyAccepted": "你已同意邀请",
+    "errorModal": {
+      "title": "出问题了",
+      "description": "你的当前账户 {email} 可能无权访问此工作区。请登录正确的账号，或者向工作区所有者求助。",
+      "contactOwner": "联系所有者",
+      "close": "返回主页",
+      "changeAccount": "切换账户"
+    }
+  },
+  "requestAccess": {
+    "title": "无权访问此页",
+    "subtitle": "你可以向页面所有者申请权限，其同意后即可查看。",
+    "requestAccess": "申请权限",
+    "backToHome": "返回主页",
+    "tip": "你目前作为 <link/> 身份登录。",
+    "mightBe": "你可能需要用不同的账户 <login/>。",
+    "successful": "请求发送成功",
+    "successfulMessage": "在所有者同意请求后，你将会收到通知。",
+    "requestError": "权限请求失败",
+    "repeatRequestError": "已请求访问此页"
+  },
+  "approveAccess": {
+    "title": "同意工作区加入请求",
+    "requestSummary": "<user/> 请求加入 <workspace/> 并访问 <page/>",
+    "upgrade": "升级",
+    "downloadApp": "下载 AppFlowy",
+    "approveButton": "同意",
+    "approveSuccess": "同意成功",
+    "approveError": "同意失败，请确保未超出工作区计划限制",
+    "getRequestInfoError": "无法获取请求信息",
+    "memberCount": {
+      "zero": "无成员",
+      "one": "1 位成员",
+      "many": "{count} 位成员",
+      "other": "{count} 位成员"
+    },
+    "alreadyProTitle": "你已达到工作区计划限额",
+    "alreadyProMessage": "让他们联系 <email/> 解锁更多成员",
+    "repeatApproveError": "你已同意此请求",
+    "ensurePlanLimit": "请确保未超出工作区计划限额。若已超出，请考虑 <upgrade/> 工作区计划，或者 <download/>。",
+    "requestToJoin": "请求加入",
+    "asMember": "作为成员"
+  },
+  "upgradePlanModal": {
+    "title": "升级到专业版",
+    "message": "{name} 已经达到免费成员限额。升级到专业版计划以邀请更多成员。",
+    "upgradeSteps": "如何升级 AppFlowy 的计划：",
+    "step1": "1. 转到设置页面",
+    "step2": "2. 点击“计划”",
+    "step3": "3. 选择“更改计划”",
+    "appNote": "备注：",
+    "actionButton": "升级",
+    "downloadLink": "下载应用",
+    "laterButton": "稍后再说",
+    "refreshNote": "在升级成功后，点击 <refresh/> 激活新功能。",
+    "refresh": "这里"
+  },
+  "breadcrumbs": {
+    "label": "面包屑分隔"
+  },
   "time": {
     "justNow": "刚刚",
     "seconds": {
@@ -1888,5 +1982,18 @@
     "ago": "前",
     "yesterday": "昨天",
     "today": "今天"
+  },
+  "members": {
+    "zero": "无成员",
+    "one": "1 位成员",
+    "many": "{count} 位成员",
+    "other": "{count} 位成员"
+  },
+  "tabMenu": {
+    "close": "关闭",
+    "closeOthers": "关闭其他标签页",
+    "favorite": "收藏",
+    "unfavorite": "取消收藏",
+    "favoriteDisabledHint": "无法收藏此页面"
   }
 }

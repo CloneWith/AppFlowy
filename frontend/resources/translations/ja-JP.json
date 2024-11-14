@@ -1462,12 +1462,12 @@
     "media": {
       "rename": "名前を変更",
       "download": "ダウンロード",
-      "open": "開く",
       "delete": "削除",
       "moreFilesHint": "+{} ファイル",
       "addFileOrImage": "ファイル、画像、またはリンクを追加",
       "attachmentsHint": "{} 添付ファイル",
       "addFileMobile": "ファイルを追加",
+      "open": "開く",
       "showMore": "{} ファイルがさらにあります。クリックして表示"
     }
   },
