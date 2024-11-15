@@ -86,7 +86,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           // Loading messages
           startLoadingPrevMessage: () async {
             Int64? beforeMessageId;
-            final oldestMessage = _getOlderstMessage();
+            final oldestMessage = _getOldestMessage();
             if (oldestMessage != null) {
               try {
                 beforeMessageId = Int64.parseInt(oldestMessage.id);
@@ -106,9 +106,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           didLoadPreviousMessages: (List<Message> messages, bool hasMore) {
             Log.debug("did load previous messages: ${messages.length}");
             final onetimeMessages = _getOnetimeMessages();
-            final allMessages = _perminentMessages();
-            final uniqueMessages = {...allMessages, ...messages}.toList()
-              ..sort((a, b) => b.id.compareTo(a.id));
+            final allMessages = _permanentMessages();
+            final uniqueMessages = {...allMessages, ...messages}.toList();
 
             uniqueMessages.insertAll(0, onetimeMessages);
 
@@ -122,9 +121,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           },
           didLoadLatestMessages: (List<Message> messages) {
             final onetimeMessages = _getOnetimeMessages();
-            final allMessages = _perminentMessages();
-            final uniqueMessages = {...allMessages, ...messages}.toList()
-              ..sort((a, b) => b.id.compareTo(a.id));
+            final allMessages = _permanentMessages();
+            final uniqueMessages = {...allMessages, ...messages}.toList();
             uniqueMessages.insertAll(0, onetimeMessages);
             emit(
               state.copyWith(
@@ -154,7 +152,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
             final payload = StopStreamPB(chatId: chatId);
             await AIEventStopStream(payload).send();
-            final allMessages = _perminentMessages();
+            final allMessages = _permanentMessages();
             if (state.streamingState != const StreamingState.done()) {
               // If the streaming is not started, remove the message from the list
               if (!state.answerStream!.hasStarted) {
@@ -175,8 +173,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
               );
             }
           },
-          receveMessage: (Message message) {
-            final allMessages = _perminentMessages();
+          receiveMessage: (Message message) {
+            final allMessages = _permanentMessages();
             // remove message with the same id
             allMessages.removeWhere((element) => element.id == message.id);
             allMessages.insert(0, message);
@@ -187,7 +185,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             );
           },
           startAnswerStreaming: (Message message) {
-            final allMessages = _perminentMessages();
+            final allMessages = _permanentMessages();
             allMessages.insert(0, message);
             emit(
               state.copyWith(
@@ -199,7 +197,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           },
           sendMessage: (String message, Map<String, dynamic>? metadata) async {
             unawaited(_startStreamingMessage(message, metadata, emit));
-            final allMessages = _perminentMessages();
+            final allMessages = _permanentMessages();
             emit(
               state.copyWith(
                 lastSentMessage: null,
@@ -221,16 +219,26 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
               ),
             );
           },
+          failedSending: () {
+            emit(
+              state.copyWith(
+                messages: _permanentMessages()..removeAt(0),
+                sendingState: const SendMessageState.done(),
+                canSendMessage: true,
+              ),
+            );
+          },
           // related question
           didReceiveRelatedQuestion: (List<RelatedQuestionPB> questions) {
             if (questions.isEmpty) {
               return;
             }
 
-            final allMessages = _perminentMessages();
+            final allMessages = _permanentMessages();
             final message = CustomMessage(
               metadata: OnetimeShotType.relatedQuestion.toMap(),
               author: const User(id: systemUserId),
+              showStatus: false,
               id: systemUserId,
             );
             allMessages.insert(0, message);
@@ -241,7 +249,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
               ),
             );
           },
-          clearReleatedQuestion: () {
+          clearRelatedQuestions: () {
             emit(
               state.copyWith(
                 relatedQuestions: [],
@@ -272,7 +280,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           }
 
           final message = _createTextMessage(pb);
-          add(ChatEvent.receveMessage(message));
+          add(ChatEvent.receiveMessage(message));
         }
       },
       chatErrorMessageCallback: (err) {
@@ -325,7 +333,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
 // Returns the list of messages that are not include one-time messages.
-  List<Message> _perminentMessages() {
+  List<Message> _permanentMessages() {
     final allMessages = state.messages.where((element) {
       return !(element.metadata?.containsKey(onetimeShotType) == true);
     }).toList();
@@ -341,7 +349,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     return messages;
   }
 
-  Message? _getOlderstMessage() {
+  Message? _getOldestMessage() {
     // get the last message that is not a one-time message
     final message = state.messages.lastWhereOrNull((element) {
       return !(element.metadata?.containsKey(onetimeShotType) == true);
@@ -384,7 +392,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       questionStream,
       metadata,
     );
-    add(ChatEvent.receveMessage(questionStreamMessage));
+    add(ChatEvent.receiveMessage(questionStreamMessage));
 
     // Stream message to the server
     final result = await AIEventStreamMessage(payload).send();
@@ -394,7 +402,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           add(ChatEvent.finishSending(question));
 
           // final message = _createTextMessage(question);
-          // add(ChatEvent.receveMessage(message));
+          // add(ChatEvent.receiveMessage(message));
 
           final streamAnswer =
               _createAnswerStreamMessage(answerStream, question.messageId);
@@ -412,10 +420,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           final error = CustomMessage(
             metadata: metadata,
             author: const User(id: systemUserId),
+            showStatus: false,
             id: systemUserId,
           );
 
-          add(ChatEvent.receveMessage(error));
+          add(const ChatEvent.failedSending());
+          add(ChatEvent.receiveMessage(error));
         }
       },
     );
@@ -436,6 +446,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         "chatId": chatId,
       },
       id: streamMessageId,
+      showStatus: false,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       text: '',
     );
@@ -462,6 +473,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       author: User(id: state.userProfile.id.toString()),
       metadata: metadata,
       id: questionStreamMessageId,
+      showStatus: false,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       text: '',
     );
@@ -480,6 +492,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       id: messageId,
       text: message.content,
       createdAt: message.createdAt.toInt() * 1000,
+      showStatus: false,
       metadata: {
         messageRefSourceJsonStringKey: message.metadata,
       },
@@ -498,11 +511,12 @@ class ChatEvent with _$ChatEvent {
   }) = _SendMessage;
   const factory ChatEvent.finishSending(ChatMessagePB message) =
       _FinishSendMessage;
+  const factory ChatEvent.failedSending() = _FailSendMessage;
 
 // receive message
   const factory ChatEvent.startAnswerStreaming(Message message) =
       _StartAnswerStreaming;
-  const factory ChatEvent.receveMessage(Message message) = _ReceiveMessage;
+  const factory ChatEvent.receiveMessage(Message message) = _ReceiveMessage;
   const factory ChatEvent.finishAnswerStreaming() = _FinishAnswerStreaming;
 
 // loading messages
@@ -518,7 +532,7 @@ class ChatEvent with _$ChatEvent {
   const factory ChatEvent.didReceiveRelatedQuestion(
     List<RelatedQuestionPB> questions,
   ) = _DidReceiveRelatedQueston;
-  const factory ChatEvent.clearReleatedQuestion() = _ClearRelatedQuestion;
+  const factory ChatEvent.clearRelatedQuestions() = _ClearRelatedQuestions;
 
   const factory ChatEvent.didUpdateAnswerStream(
     AnswerStream stream,
