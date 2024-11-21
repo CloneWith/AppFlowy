@@ -651,6 +651,7 @@
         "descriptionEncrypted": "你的数据已加密。",
         "action": "加密数据",
         "dialog": {
+          "title": "加密所有数据吗？",
           "description": "加密所有数据将保证数据安全。此操作无法撤消。您确定要继续吗？"
         }
       },
@@ -665,16 +666,34 @@
       },
       "data": {
         "fixYourData": "修复数据",
-        "fixButton": "修复"
+        "fixButton": "修复",
+        "fixYourDataDescription": "如果发现你的数据出现问题，你可以在这里修复。"
       }
     },
     "shortcutsPage": {
+      "menuLabel": "快捷键",
+      "title": "快捷键",
+      "editBindingHint": "输入新绑定",
+      "searchHint": "搜索",
       "actions": {
         "resetDefault": "重置为默认"
       },
-      "resetDialog": {
-        "description": "这将会将所有按键绑定重置为默认，之后无法撤销。你确定要继续吗？"
+      "errorPage": {
+        "message": "无法加载快捷键：{}",
+        "howToFix": "请再试一次，若问题依然存在，请在 GitHub 上报告。"
       },
+      "resetDialog": {
+        "title": "重置快捷键",
+        "description": "这将会将所有按键绑定重置为默认，之后无法撤销。你确定要继续吗？",
+        "buttonLabel": "重置"
+      },
+      "conflictDialog": {
+        "title": "目前正在使用 {}",
+        "descriptionPrefix": "该按键绑定正在使用的操作是",
+        "descriptionSuffix": "。如果替换该绑定，其将从 {} 中移除。",
+        "confirmLabel": "继续"
+      },
+      "editTooltip": "按下按键以开始编辑按键绑定",
       "keybindings": {
         "selectAllCodeblock": "全选"
       }
